@@ -38,8 +38,13 @@ public class OperatingSystem {
     }
     
     public void makeFllopy()   {
+    	String s = "This is a text from cylinder 1 and sector 2";
+    	floppyDisk.writeFloppy(Floppy.MAGNETIC_HEAD.MAGNETIC_HEAD_0, 1, 2, s.getBytes());
+    	
     	floppyDisk.makeFloppy("system.img");
     }
+    
+   
 
     public static void main(String[] args) {
     	OperatingSystem op = new OperatingSystem("boot.bat");

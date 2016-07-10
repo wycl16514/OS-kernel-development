@@ -102,19 +102,31 @@ public class Floppy {
     	
     	ArrayList<ArrayList<byte[]>> disk = floppy.get(this.magneticHead.ordinal());
     	ArrayList<byte[]> cylinder = disk.get(this.current_cylinder);
-    	cylinder.set(this.current_sector, buf);
+    	
+    	byte[] buffer = cylinder.get(this.current_sector);
+    	System.arraycopy(buf, 0, buffer, 0, buf.length);
     }
     
     public void makeFloppy(String fileName) {
     	try {
 			DataOutputStream out = new DataOutputStream(new FileOutputStream(fileName));
-			for (int head = 0; head <= MAGNETIC_HEAD.MAGETIC_HEAD_1.ordinal(); head++) {
-				for (int cylinder = 0; cylinder < CYLINDER_COUNT; cylinder++) {
-					for (int sector = 1; sector <= SECTORS_COUNT; sector++) {
+			for (int cylinder = 0; cylinder < CYLINDER_COUNT; cylinder++) {
+			  for (int head = 0; head <= MAGNETIC_HEAD.MAGETIC_HEAD_1.ordinal(); head++) {
+				  for (int sector = 1; sector <= SECTORS_COUNT; sector++) {
 						byte[] buf = readFloppy(MAGNETIC_HEAD.values()[head], cylinder, sector);
+						/*if (head == 0 && cylinder == 0 && sector == 2) {
+							int k = 0;
+							k = 2;
+							byte[] buffer = new byte[]{'H', 'e', 'l','l','o', 'w', 'o', 'r', 'l', 'd'};
+							for (int i = 0; i < buffer.length; i++) {
+					    		buf[i] = buffer[i];
+					    	}
+					    	
+ 						}*/
 						out.write(buf);
 					}
-				}
+				
+			    }
 			}
 			
 		} catch (Exception e) {
